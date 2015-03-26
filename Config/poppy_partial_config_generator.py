@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     '''
     import json
-    poppy_config['controllers']['upper_body_controller']['port'] = "/dev/tty/usbmodem4121"
+    poppy_config['controllers']['upper_body_controller']['port'] = "auto"
 
     with open('poppy_config.json','w') as f:
         json.dump(poppy_config, f, indent=2)
