@@ -5,9 +5,9 @@ Collecte Data from Arduino sent by Sensors ans make Action
 Author : H. Guermoule
 '''
 
-from subprocess import call
 import serial
 from time import sleep
+from Audio.tts import PicoTTS
 #import pyaudio
 #import wave
 
@@ -56,38 +56,37 @@ def Action_Mik(Val_mik1, Val_mik2, L_robot):
     # Define tersholds
     L_tershold = 200.0
     Perc_tershold = 25
+    speaker = PicoTTS()
+    salutation = ' Salut ! que puis-je pour toi ?'
+    silence = False
 
     if (Val_mik1 < L_tershold and Val_mik2 < L_tershold) :
 		return 0
     delta_val_mik = Val_mik1 - Val_mik2
     per_cent_vals = (abs(delta_val_mik) * 100)/max(Val_mik1,Val_mik2)
-    '''
+    
     if (per_cent_vals >= Perc_tershold):
-    print(per_cent_vals)
-    print('\n')
-    '''   
+       print(per_cent_vals)
+       #print('\n')
+       
     if (delta_val_mik <= 0 and per_cent_vals >= Perc_tershold) :
 	    L_robot.Head_sound_motion.which_side = 'Right_Side'
     elif (delta_val_mik > 0 and per_cent_vals >= Perc_tershold):
 	    L_robot.Head_sound_motion.which_side = 'Left_Side'
     else :
 	    L_robot.Head_sound_motion.which_side = 'Center'
+            silence = True
  
     L_robot.Head_sound_motion.start()
     L_robot.Head_sound_motion.wait_to_stop()
     sleep(2)    
-    #Aplay_wave ()
-    #sleep(2)
+    if silence == False :
+         speaker.say(salutation)
+         #sleep(2)
 	
 def Save_mik_to_file(Val_mik, outfile):  
       outfile.write(str(Val_mik))
 
-def Aplay_wave():
-    # DEVNULL ou None
-    wf = "./Statics/Wave/Bonjour.wav"
-    cmd = ['aplay', str(wf)]
-    #call(cmd, stdout=DEVNULL, stderr=DEVNULL)
-    call (cmd)
     
 # main() function
 def main():
