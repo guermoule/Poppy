@@ -1,0 +1,39 @@
+{
+  "controllers": {
+    "upper_body_controller": {
+      "sync_read": false, 
+      "attached_motors": [
+        "head"
+      ], 
+      "port": "auto"
+    }
+  }, 
+  "motorgroups": {
+    "head": [
+      "head_z", 
+      "head_y"
+    ]
+  }, 
+  "motors": {
+    "head_y": {
+      "offset": 10.0, 
+      "type": "AX-12", 
+      "id": 37, 
+      "angle_limit": [
+        -40, 
+        8
+      ], 
+      "orientation": "indirect"
+    }, 
+    "head_z": {
+      "offset": 0.0, 
+      "type": "AX-18", 
+      "id": 36, 
+      "angle_limit": [
+        -100, 
+        100
+      ], 
+      "orientation": "direct"
+    }
+  }
+}
